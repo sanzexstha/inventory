@@ -16,17 +16,33 @@ class EmployeeSerializer(serializers.ModelSerializer):
         model = Employee
         fields = '__all__'
 
+class EmployeeRequestSerializer(serializers.ModelSerializer):
+     
+    class Meta:
+        model = Employee
+        fields = '__all__'
+
 class ItemSerializer(serializers.ModelSerializer): 
     class Meta:
         model = Item
         fields = '__all__'
 
-class ItemRequestSerializer(serializers.ModelSerializer):
+class ItemRequestViewSerializer(serializers.ModelSerializer):
     employee = EmployeeSerializer()
-    item = ItemSerializer( many=True)
+    item = ItemSerializer(many=True)
     class Meta:
         model = ItemRequest
         fields = '__all__'
+
+class ItemRequestSerializer(serializers.ModelSerializer):
+    
+    
+
+    class Meta: 
+        model = ItemRequest
+        fields = '__all__'
+
+
 
 class AssignedItemDetailSerializer(serializers.ModelSerializer):
      

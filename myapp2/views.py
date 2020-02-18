@@ -23,7 +23,12 @@ class ItemOverViewViewSet(viewsets.ModelViewSet):
 
 class ItemRequestViewSet(viewsets.ModelViewSet):
     queryset = ItemRequest.objects.all()
-    serializer_class = ItemRequestSerializer
+    serializer_class = ItemRequestViewSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return ItemRequestSerializer
+        return super().get_serializer_class()
 
 
 
