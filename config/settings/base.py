@@ -39,6 +39,22 @@ ROOT_DIR = environ.Path(__file__) - 3
 APPS_DIR = ROOT_DIR.path('project')
 # Application definition
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+      'rest_framework.permissions.AllowAny',
+        #'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+       # 'rest_framework.authentication.SessionAuthentication',
+       # 'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+JWT_AUTH = {
+     
+      'JWT_RESPONSE_PAYLOAD_HANDLER' :  
+     'myapp2.utils.custom_jwt_response_handler'
+}
 
 
 DJANGO_APPS = (
@@ -50,8 +66,11 @@ DJANGO_APPS = (
     'django.contrib.staticfiles',
 )
 THIRD_PARTY_APPS = (
+    'rest_framework',
 )
+
 LOCAL_APPS = (
+    'myapp2',
 )
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
