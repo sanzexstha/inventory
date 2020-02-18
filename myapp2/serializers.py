@@ -5,7 +5,13 @@ from django.contrib.auth.models import User
 from rest_framework_jwt.settings import api_settings
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username','first_name', 'last_name')
+
 class EmployeeSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
     class Meta:
         model = Employee
         fields = '__all__'

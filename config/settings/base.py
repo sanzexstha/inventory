@@ -33,7 +33,7 @@ if READ_DOT_ENV_FILE:
 
 DEBUG = env.bool('DJANGO_DEBUG', False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 ROOT_DIR = environ.Path(__file__) - 3
 APPS_DIR = ROOT_DIR.path('project')
@@ -50,6 +50,9 @@ REST_FRAMEWORK = {
        # 'rest_framework.authentication.BasicAuthentication',
     ),
 }
+
+
+
 JWT_AUTH = {
      
       'JWT_RESPONSE_PAYLOAD_HANDLER' :  
@@ -67,6 +70,7 @@ DJANGO_APPS = (
 )
 THIRD_PARTY_APPS = (
     'rest_framework',
+    'corsheaders'
 )
 
 LOCAL_APPS = (
@@ -74,10 +78,14 @@ LOCAL_APPS = (
 )
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
