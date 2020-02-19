@@ -22,6 +22,10 @@ class ItemOverViewViewSet(viewsets.ModelViewSet):
             return ItemSerializer
         return super().get_serializer_class()
 
+    # def perform_create(self, serializer):
+    #     if 
+    #     serializer.save
+
 class ItemRequestViewSet(viewsets.ModelViewSet):
     queryset = ItemRequest.objects.all()
     serializer_class = ItemRequestViewSerializer
@@ -29,6 +33,7 @@ class ItemRequestViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return ItemRequestSerializer
+        
         return super().get_serializer_class()
 
 
@@ -38,10 +43,14 @@ class ItemApproveViewSet(viewsets.ModelViewSet):
     serializer_class = AssignedItemSerializer
 
     def perform_create(self, serializer):
+        
         queryset = AssignedItem.objects.filter(
             employee_id=self.request.data.get('employee'),item_id=self.request.data.get('item'))
         if queryset.exists():
             raise serializers.ValidationError('already approved')
+        item=serializer.validated_data.get('item')
+        item.available = False
+        item.save() 
         serializer.save()
 
  

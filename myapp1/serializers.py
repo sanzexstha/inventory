@@ -42,7 +42,7 @@ class ItemRequestSerializer(serializers.ModelSerializer):
 class AssignedItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = AssignedItem
-        fields = '__all__'
+        fields = ('id', 'employee','item')
      
 
 class AssignedItemDetailSerializer(serializers.ModelSerializer):
@@ -58,6 +58,10 @@ class ItemOverviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
         fields = '__all__'
+
+    
+
+    
 
 
  
