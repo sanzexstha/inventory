@@ -1,6 +1,7 @@
 from .serializers import *
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
+from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework import permissions
 from rest_framework import serializers
@@ -31,6 +32,19 @@ class ItemRequestViewSet(viewsets.ModelViewSet):
         return super().get_serializer_class()
 
 
+
+class ItemApproveViewSet(viewsets.ModelViewSet):
+    queryset = AssignedItem.objects.all()
+    serializer_class = AssignedItemSerializer
+
+    def perform_create(self, serializer):
+        queryset = AssignedItem.objects.filter(
+            employee_id=self.request.data.get('employee'),item_id=self.request.data.get('item'))
+        if queryset.exists():
+            raise serializers.ValidationError('already approved')
+        serializer.save()
+
+ 
 
 
 

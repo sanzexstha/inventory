@@ -19,13 +19,9 @@ class Item(models.Model):
         s= item.assigned_item.all().first()
         return s
 
-
-
-     
- 
 class ItemRequest(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='item_request_employee')
-    item = models.ManyToManyField(Item, related_name='item_request')
+    item = models.ManyToManyField(Item,   related_name='item_request')
     
 class AssignedItem(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='assigned_employee')

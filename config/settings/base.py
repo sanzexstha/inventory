@@ -56,7 +56,7 @@ REST_FRAMEWORK = {
 JWT_AUTH = {
      
       'JWT_RESPONSE_PAYLOAD_HANDLER' :  
-     'myapp.utils.custom_jwt_response_handler'
+     'myapp1.utils.custom_jwt_response_handler'
 }
 
 
@@ -74,7 +74,7 @@ THIRD_PARTY_APPS = (
 )
 
 LOCAL_APPS = (
-    'myapp',
+    'myapp1',
 )
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 

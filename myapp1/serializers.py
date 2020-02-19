@@ -35,14 +35,15 @@ class ItemRequestViewSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ItemRequestSerializer(serializers.ModelSerializer):
-    
-    
-
     class Meta: 
         model = ItemRequest
         fields = '__all__'
 
-
+class AssignedItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AssignedItem
+        fields = '__all__'
+     
 
 class AssignedItemDetailSerializer(serializers.ModelSerializer):
      
