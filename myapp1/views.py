@@ -21,10 +21,7 @@ class ItemOverViewViewSet(viewsets.ModelViewSet):
         if self.request.method == 'POST':
             return ItemSerializer
         return super().get_serializer_class()
-
-    # def perform_create(self, serializer):
-    #     if 
-    #     serializer.save
+ 
 
 class ItemRequestViewSet(viewsets.ModelViewSet):
     queryset = ItemRequest.objects.all()
@@ -33,25 +30,40 @@ class ItemRequestViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return ItemRequestSerializer
-        
         return super().get_serializer_class()
+
+    
 
 
 
 class ItemApproveViewSet(viewsets.ModelViewSet):
     queryset = AssignedItem.objects.all()
-    serializer_class = AssignedItemSerializer
+    serializer_class = AssignedItemViewSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return AssignedItemSerializer
+        return super().get_serializer_class()
+
 
     def perform_create(self, serializer):
         
         queryset = AssignedItem.objects.filter(
-            employee_id=self.request.data.get('employee'),item_id=self.request.data.get('item'))
+            employee_id=self.request.data.get('employee'),
+            item_id=self.request.data.get('item'))
         if queryset.exists():
             raise serializers.ValidationError('already approved')
         item=serializer.validated_data.get('item')
         item.available = False
         item.save() 
         serializer.save()
+
+    
+    # def destroy(self, request, *args, **kwargs):
+    #     doctor = self.get_object()
+    #     doctor.is_active = False
+    #     doctor.save()
+    #     return Response(data='delete success')
 
  
 

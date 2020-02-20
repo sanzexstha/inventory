@@ -10,6 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username','first_name', 'last_name')
 
+   
 class EmployeeSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     class Meta:
@@ -40,9 +41,19 @@ class ItemRequestSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class AssignedItemSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = AssignedItem
         fields = ('id', 'employee','item')
+
+class AssignedItemViewSerializer(serializers.ModelSerializer):
+     
+    employee = EmployeeSerializer()
+    item = ItemSerializer()
+    
+    class Meta:
+        model = AssignedItem
+        fields = '__all__'
      
 
 class AssignedItemDetailSerializer(serializers.ModelSerializer):
@@ -58,11 +69,6 @@ class ItemOverviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
         fields = '__all__'
-
-    
-
-    
-
 
  
 class GetFullUserSerializer(serializers.ModelSerializer):
@@ -91,6 +97,8 @@ class UserSerializerWithToken(serializers.ModelSerializer):
         )
         user.set_password(validated_data['password'])
         user.save()
+        employee = Employee.objects.create(user=user)
+        employee.save()
         return user
     
     class Meta:
