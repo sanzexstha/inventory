@@ -11,6 +11,8 @@ class Item(models.Model):
     code = models.CharField(max_length=100, unique = True)
     added_date = models.DateField(auto_now_add=True)
     available = models.BooleanField(default=True)
+    is_accepted= models.BooleanField(null=True)
+
     
 
     @property
@@ -21,15 +23,13 @@ class Item(models.Model):
         return s
    
  
-    @property
-    def is_accepted(self):
-        if AssignedItem.objects.get(item_id=self.id):
-            return True
-        else:
-            return False
-
     # @property
-    # def is_rejected(self):
+    # def is_accepted(self):
+    #     if AssignedItem.objects.get(item_id=self.id):
+    #         return True
+    #     else:
+    #         return False
+ 
 
 class ItemRequest(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='item_request_employee')

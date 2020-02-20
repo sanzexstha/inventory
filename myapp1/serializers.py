@@ -23,10 +23,19 @@ class EmployeeRequestSerializer(serializers.ModelSerializer):
         model = Employee
         fields = '__all__'
 
+class ItemPostSerializer(serializers.ModelSerializer): 
+
+    class Meta:
+        model = Item
+        exclude = ['is_accepted']
+
 class ItemSerializer(serializers.ModelSerializer): 
+
     class Meta:
         model = Item
         fields = '__all__'
+
+    
 
 class ItemRequestViewSerializer(serializers.ModelSerializer):
     employee = EmployeeSerializer()

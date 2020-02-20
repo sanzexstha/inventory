@@ -19,18 +19,22 @@ class ItemOverViewViewSet(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
-            return ItemSerializer
+            return ItemPostSerializer
         return super().get_serializer_class()
  
 
 class ItemRequestViewSet(viewsets.ModelViewSet):
     queryset = ItemRequest.objects.all()
     serializer_class = ItemRequestViewSerializer
+    
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return ItemRequestSerializer
         return super().get_serializer_class()
+
+    
+
 
     
 
@@ -55,6 +59,7 @@ class ItemApproveViewSet(viewsets.ModelViewSet):
             raise serializers.ValidationError('already approved')
         item=serializer.validated_data.get('item')
         item.available = False
+        item.is_accepted = True
         item.save() 
         serializer.save()
 
