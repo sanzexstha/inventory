@@ -31,14 +31,27 @@ class ItemRequestViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return ItemRequestSerializer
+        if self.request.method == 'DELETE':
+            return ItemRequestSerializer
         return super().get_serializer_class()
 
-    
+    def destroy(self, request, *args, **kwargs):
+        raise NotImplementedError
+
+class RejectRequestViewSet(viewsets.ModelViewSet):
+    queryset = RejectedRequest.objects.all()
+    serializer_class = RejectedRequestSerializer
+
+    def perform_create(self, serializer):
+        item=serializer.validated_data.get('item')
+        item.is_accepted = False
+        item.save()
+        serializer.save()
 
 
-    
 
 
+         
 
 class ItemApproveViewSet(viewsets.ModelViewSet):
     queryset = AssignedItem.objects.all()
@@ -64,11 +77,7 @@ class ItemApproveViewSet(viewsets.ModelViewSet):
         serializer.save()
 
     
-    # def destroy(self, request, *args, **kwargs):
-    #     doctor = self.get_object()
-    #     doctor.is_active = False
-    #     doctor.save()
-    #     return Response(data='delete success')
+    
 
  
 

@@ -7,7 +7,7 @@ router = routers.DefaultRouter()
 router.register(r'item', ItemOverViewViewSet)
 router.register(r'itemrequest', ItemRequestViewSet)
 router.register(r'itemapprove', ItemApproveViewSet)
-
+router.register(r'rejectrequest', RejectRequestViewSet)
 urlpatterns = [
    
     url(r'^', include(router.urls )),

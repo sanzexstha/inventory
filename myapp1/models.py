@@ -41,6 +41,11 @@ class AssignedItem(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='assigned_item')
     is_active = models.BooleanField(default=True)
 
+class RejectedRequest(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='rejected_employee')
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='rejected_item')
+     
+
 
 
 

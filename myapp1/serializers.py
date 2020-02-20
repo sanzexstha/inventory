@@ -115,4 +115,7 @@ class UserSerializerWithToken(serializers.ModelSerializer):
         fields = ('token', 'username', 'password', 'first_name',
         'last_name')
 
- 
+class RejectedRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RejectedRequest
+        fields = '__all__'
