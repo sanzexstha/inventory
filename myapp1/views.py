@@ -31,12 +31,10 @@ class ItemRequestViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return ItemRequestSerializer
-        if self.request.method == 'DELETE':
-            return ItemRequestSerializer
+ 
         return super().get_serializer_class()
 
-    def destroy(self, request, *args, **kwargs):
-        raise NotImplementedError
+  
 
 class RejectRequestViewSet(viewsets.ModelViewSet):
     queryset = RejectedRequest.objects.all()
