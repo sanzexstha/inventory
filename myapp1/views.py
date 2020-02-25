@@ -12,6 +12,7 @@ from .models import *
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 
+
  
 class ItemOverViewViewSet(viewsets.ModelViewSet):
     queryset = Item.objects.all()
@@ -34,6 +35,19 @@ class ItemRequestViewSet(viewsets.ModelViewSet):
  
         return super().get_serializer_class()
 
+    def perform_create(self, serializer):
+        emp = serializer.validated_data.get('employee')
+        items=serializer.validated_data.get('item')
+        for item in items: 
+            print(item)
+            if item.is_accepted == True :
+                raise serializers.ValidationError('Cant request')
+            elif ItemRequest.objects.filter(employee_id=emp.id, item=item.id).exists():
+                raise serializers.ValidationError('You have already request the item')
+        serializer.save()
+
+    
+
   
 
 class RejectRequestViewSet(viewsets.ModelViewSet):
@@ -45,11 +59,7 @@ class RejectRequestViewSet(viewsets.ModelViewSet):
         item.is_accepted = False
         item.save()
         serializer.save()
-
-
-
-
-         
+       
 
 class ItemApproveViewSet(viewsets.ModelViewSet):
     queryset = AssignedItem.objects.all()

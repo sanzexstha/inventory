@@ -38,8 +38,12 @@ ALLOWED_HOSTS = ['*']
 ROOT_DIR = environ.Path(__file__) - 3
 APPS_DIR = ROOT_DIR.path('project')
 # Application definition
-
 REST_FRAMEWORK = {
+
+}
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 6,
     'DEFAULT_PERMISSION_CLASSES': (
       'rest_framework.permissions.AllowAny',
         #'rest_framework.permissions.IsAuthenticated',

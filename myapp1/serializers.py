@@ -3,7 +3,14 @@ from .models import  *
 from django.contrib.auth.models import User
  
 from rest_framework_jwt.settings import api_settings
+from rest_framework_jwt.compat import Serializer, PasswordField
+from django.contrib.auth import authenticate, get_user_model
+from rest_framework_jwt.serializers import jwt_payload_handler, jwt_encode_handler
+from django.utils.translation import gettext as _
 
+
+
+USER = get_user_model
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -119,3 +126,43 @@ class RejectedRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = RejectedRequest
         fields = '__all__'
+
+
+
+class CustomJSONWebTokenSerializer(Serializer):
+    username = serializers.CharField(max_length=25)
+    password = PasswordField(write_only=True)
+
+
+
+    def validate(self, attrs):
+        username = attrs.get('username')
+      
+        password = attrs.get('password')
+         
+
+         
+
+        credentials = {
+            'username': username,
+            'password': password
+        }
+
+        if all(credentials.values()):
+            user = authenticate(**credentials)
+
+            if user:
+                
+
+                payload = jwt_payload_handler(user)
+
+                return {
+                    'token': jwt_encode_handler(payload),
+                    'user': user
+                }
+            else:
+                msg = _('User doesnt exists')
+                raise serializers.ValidationError(msg)
+        else:
+            msg = _('Must include "username" and "password".')
+            raise serializers.ValidationError(msg)
